@@ -19,19 +19,16 @@ public class JpaMain {
          * WHY? 나머지 코드들은 스프링이 알아서 다 해준다.
          */
         try{
-            Member member1 = new Member(150L, "A");
-            Member member2 = new Member(160L, "B");
-            /**
-             * 영속 - 이때 DB에 저장되는게 아니다. 영속 컨텍스트에 저장됨
-             */
-            em.persist(member1);
-            em.persist(member2);
 
-            System.out.println("================");
 
             /**
-             * DB는 영속 한 이후 commit 을 해야 저장됨
+             * 멤버를 찾아온 다음에 값을 변경해주면 JPA 가 자동으로
+             * update 쿼리를 날려준다.
+             * --> 변경 감지
              */
+            Member member = em.find(Member.class, 150L);
+            member.setName("ZZZZZ");
+            System.out.println("=======");
             tx.commit();
 
         } catch (Exception e){
