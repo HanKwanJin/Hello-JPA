@@ -19,19 +19,26 @@ public class JpaMain {
          * WHY? 나머지 코드들은 스프링이 알아서 다 해준다.
          */
         try{
-            //Member findMember = em.find(Member.class, 2L);
+            /**
+             * 비영속
+             */
+            Member member = new Member();
+            member.setId(101L);
+            member.setName("HelloJPA");
 
-            //Member member = new Member();
-            //em.persist(member); #insert
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
-                    .getResultList();
+            /**
+             * 영속 - 이때 DB에 저장되는게 아니다. 영속 컨텍스트에 저장됨
+             */
+            em.persist(member);
+            Member findMember = em.find(Member.class, 101L);
+            System.out.println("findMember.getId() = " + findMember.getId());
+            System.out.println("findMember.getName() = " + findMember.getName());
 
-            for (Member member : result) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+            /**
+             * DB는 영속 한 이후 commit 을 해야 저장됨
+             */
             tx.commit();
+
         } catch (Exception e){
             tx.rollback();
         }finally {
