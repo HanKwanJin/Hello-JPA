@@ -20,17 +20,7 @@ public class JpaMain {
          */
         try{
 
-
-            /**
-             * 멤버를 찾아온 다음에 값을 변경해주면 JPA 가 자동으로
-             * update 쿼리를 날려준다.
-             * --> 변경 감지
-             */
-            Member member = em.find(Member.class, 150L);
-            member.setName("ZZZZZ");
-            System.out.println("=======");
             tx.commit();
-
         } catch (Exception e){
             tx.rollback();
         }finally {
