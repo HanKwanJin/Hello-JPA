@@ -1,5 +1,8 @@
 package hellojpa;
 
+import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.Team;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -19,6 +22,24 @@ public class JpaMain {
          * WHY? 나머지 코드들은 스프링이 알아서 다 해준다.
          */
         try{
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setName("member1");
+            member.changeTeam(team);
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+            List<Member> members = findMember.getTeam().getMembers();
+
+            for (Member m : members){
+                System.out.println("m.getName() = " + m.getName());
+            }
 
             tx.commit();
         } catch (Exception e){

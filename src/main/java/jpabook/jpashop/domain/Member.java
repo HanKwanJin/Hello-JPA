@@ -1,19 +1,26 @@
 package jpabook.jpashop.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Member {
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
+
+    @Column(name = "USERNAME")
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
+
+    /**
+     *  양방향 매핑
+     *  연관 관계의 주인이다.
+     */
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Long getId() {
         return id;
@@ -31,27 +38,15 @@ public class Member {
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    /**
+     * 연관관계 편의 메소드
+     */
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
     }
 }
