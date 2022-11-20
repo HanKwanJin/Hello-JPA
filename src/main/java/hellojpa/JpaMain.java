@@ -1,5 +1,6 @@
 package hellojpa;
 
+import jpabook.jpashop.domain.Book;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Movie;
 import jpabook.jpashop.domain.Team;
@@ -23,17 +24,10 @@ public class JpaMain {
          * WHY? 나머지 코드들은 스프링이 알아서 다 해준다.
          */
         try{
-            Movie movie = new Movie();
-            movie.setDirector("aaaa");
-            movie.setActor("bbbb");
-            movie.setName("바람");
-            movie.setPrice(10000);
-            em.persist(movie);
-
-            em.flush();
-            em.clear();
-            Movie findMovie = em.find(Movie.class, movie.getId());
-            System.out.println("findMovie = " + findMovie);
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한");
+            em.persist(book);
             tx.commit();
         } catch (Exception e){
             tx.rollback();
